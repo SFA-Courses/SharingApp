@@ -29,6 +29,7 @@ public class AddItemActivity extends AppCompatActivity {
     private ImageView photo;
     private Bitmap image;
     private int REQUEST_CODE = 1;
+    private static final int REQUEST_IMAGE_CAPTURE  = 2;
 
     private ItemList item_list = new ItemList();
     private ItemListController item_list_controller = new ItemListController(item_list);
@@ -106,9 +107,10 @@ public class AddItemActivity extends AppCompatActivity {
 
     public void addPhoto(View view) {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (intent.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(intent, REQUEST_CODE);
-        }
+        startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
+        //if (intent.resolveActivity(getPackageManager()) != null) {
+          //  startActivityForResult(intent, REQUEST_CODE);
+        //}
     }
 
     public void deletePhoto(View view) {
@@ -119,7 +121,7 @@ public class AddItemActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int request_code, int result_code, Intent intent){
-        if (request_code == REQUEST_CODE && result_code == RESULT_OK){
+        if (request_code == REQUEST_IMAGE_CAPTURE && result_code == RESULT_OK){
             Bundle extras = intent.getExtras();
             image = (Bitmap) extras.get("data");
             photo.setImageBitmap(image);

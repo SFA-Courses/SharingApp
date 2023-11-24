@@ -52,5 +52,9 @@ public class User extends Observable {
         this.email= email;
         notifyObservers();
     }
+
+    public String toString() {
+        return "id: " + id + " username: " + username + " email: " + email;
+    }
 }
 

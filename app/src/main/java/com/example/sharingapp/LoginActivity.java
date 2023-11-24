@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Handler;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -39,6 +40,7 @@ public class LoginActivity extends AppCompatActivity {
 
         context = getApplicationContext();
         user_list_controller.getRemoteUsers();
+
     }
 
     public void login(View view) {

@@ -2,6 +2,7 @@ package com.example.sharingapp;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.util.Base64;
 
 import java.io.ByteArrayOutputStream;
@@ -154,7 +155,11 @@ public class Item extends Observable {
         }
         notifyObservers();
     }
-
+    public Bitmap removeImage() {
+        Bitmap temp = this.image;
+        this.image = null;
+        return  temp;
+    }
     public Bitmap getImage(){
         if (image == null && image_base64 != null) {
             byte[] decodeString = Base64.decode(image_base64, Base64.DEFAULT);

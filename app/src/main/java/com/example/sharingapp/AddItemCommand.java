@@ -1,5 +1,7 @@
 package com.example.sharingapp;
 
+import android.util.Log;
+
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -15,6 +17,15 @@ public class AddItemCommand extends Command{
 
     // Save the item remotely to server
     public void execute(){
+        try {
+            DatabaseManager.getInstance().addItem(item);
+            super.setIsExecuted(true);
+        } catch (Exception e) {
+            super.setIsExecuted(false);
+            Log.e("AddItemCommand: execute", e.getMessage());
+            e.printStackTrace();
+        }
+        /*
         ElasticSearchManager.AddItemTask add_item_task = new ElasticSearchManager.AddItemTask();
         add_item_task.execute(item);
 
@@ -28,5 +39,6 @@ public class AddItemCommand extends Command{
             e.printStackTrace();
             super.setIsExecuted(false);
         }
+         */
     }
 }
