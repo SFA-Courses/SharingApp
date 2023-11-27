@@ -1,5 +1,7 @@
 package com.example.sharingapp;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 
 /**
@@ -8,7 +10,7 @@ import java.util.ArrayList;
 
 public class ItemListController {
 
-    private ItemList item_list;
+    public ItemList item_list;
 
     public ItemListController(ItemList item_list){
         this.item_list = item_list;
@@ -84,7 +86,10 @@ public class ItemListController {
         item_list.removeObserver(observer);
     }
 
-    public void getRemoteItems(){
-        item_list.getRemoteItems();
+    public void loadRemoteItems(){
+        this.item_list = DatabaseManager.getInstance().getItems();
+        Log.d("loadRemoteItems: ", this.item_list.getSize() + " " + this.item_list);
+        this.item_list.notifyObservers();
+
     }
 }

@@ -32,11 +32,11 @@ public class BorrowedItemsActivity extends AppCompatActivity implements Observer
 
         context = getApplicationContext();
 
-        user_list_controller.getRemoteUsers();
+        user_list_controller.loadRemoteUsers();
         String username = user_list_controller.getUsernameByUserId(user_id);
 
         item_list_controller.addObserver(this);
-        item_list_controller.getRemoteItems();
+        item_list_controller.loadRemoteItems();
         item_list_controller.setItems(item_list_controller.getBorrowedItemsByUsername(username));
 
         // When an item is long clicked, this starts ViewItemActivity

@@ -39,7 +39,9 @@ public class LoginActivity extends AppCompatActivity {
         email_tv.setVisibility(View.GONE);
 
         context = getApplicationContext();
-        user_list_controller.getRemoteUsers();
+
+
+        user_list_controller.loadRemoteUsers();
 
     }
 
@@ -47,7 +49,7 @@ public class LoginActivity extends AppCompatActivity {
         username_str = username.getText().toString();
         email_str = email.getText().toString();
         String user_id = "";
-
+        user_list_controller.loadRemoteUsers();
         if (user_list_controller.getUserByUsername(username_str) == null && email.getVisibility() == View.GONE) {
             email.setVisibility(View.VISIBLE);
             email_tv.setVisibility(View.VISIBLE);

@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,7 +39,7 @@ public abstract class ItemsFragment extends Fragment implements Observer {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         context = getContext();
 
-        item_list_controller.getRemoteItems(); // Call to update() suppressed
+        item_list_controller.loadRemoteItems(); // Call to update() suppressed
         update = true; // Future calls to update() permitted
 
         this.inflater = inflater;
@@ -59,7 +61,8 @@ public abstract class ItemsFragment extends Fragment implements Observer {
     public void loadItems(Fragment fragment){
         this.fragment = fragment;
         item_list_controller.addObserver(this);
-        item_list_controller.getRemoteItems();
+        item_list_controller.loadRemoteItems();
+        Log.d("loadItems", item_list_controller.getSize()+" " + item_list_controller.item_list);
     }
 
     public void setFragmentOnItemLongClickListener(){

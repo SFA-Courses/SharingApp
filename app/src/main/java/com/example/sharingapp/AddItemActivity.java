@@ -65,7 +65,7 @@ public class AddItemActivity extends AppCompatActivity {
         photo.setImageResource(android.R.drawable.ic_menu_gallery);
 
         context = getApplicationContext();
-        item_list_controller.getRemoteItems();
+        item_list_controller.loadRemoteItems();
     }
 
     public void saveItem (View view) {

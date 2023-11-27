@@ -1,5 +1,7 @@
 package com.example.sharingapp;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
@@ -116,8 +118,16 @@ public class ItemList extends Observable {
         return null;
     }
 
-    public void getRemoteItems(){
-        ElasticSearchManager.GetItemListTask get_item_list_task = new ElasticSearchManager.GetItemListTask();
+   // public void getRemoteItems(){
+     //   try {
+       //     DatabaseManager.getInstance().loadItems(this);
+         //   Log.d("getRemoteItems: ", this.getSize()+"");
+        //}
+        //catch (Exception e) {
+          //  e.printStackTrace();
+            //Log.e("GetRemoteItems: " , e.getMessage());
+        //}
+/*        ElasticSearchManager.GetItemListTask get_item_list_task = new ElasticSearchManager.GetItemListTask();
         get_item_list_task.execute();
 
         try {
@@ -125,6 +135,9 @@ public class ItemList extends Observable {
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
-        notifyObservers();
-    }
+       */
+     //   notifyObservers();
+   // }
+
+
 }

@@ -21,7 +21,7 @@ public class ViewUserActivity extends AppCompatActivity {
         TextView username = (TextView) findViewById(R.id.username_right_tv);
         TextView email = (TextView) findViewById(R.id.email_right_tv);
 
-        user_list_controller.getRemoteUsers();
+        user_list_controller.loadRemoteUsers();
 
         User user = user_list_controller.getUserByUsername(username_str);
         UserController user_controller = new UserController(user);

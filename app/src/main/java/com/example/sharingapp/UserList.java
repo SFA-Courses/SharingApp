@@ -87,8 +87,9 @@ public class UserList extends Observable {
         return true;
     }
 
-    public void getRemoteUsers(){
-        DatabaseManager.getInstance().loadUsers(this);
+   // public void getRemoteUsers(){
+     //    this.users = DatabaseManager.getInstance().loadUsers();
+       //  DatabaseManager.getInstance().setUserList(this);
 /*        ElasticSearchManager.GetUserListTask get_user_list_task = new ElasticSearchManager.GetUserListTask();
         get_user_list_task.execute();
 
@@ -98,8 +99,8 @@ public class UserList extends Observable {
             e.printStackTrace();
         }
        */
-        notifyObservers();
+        //notifyObservers();
 
 
-    }
+    //}
 }

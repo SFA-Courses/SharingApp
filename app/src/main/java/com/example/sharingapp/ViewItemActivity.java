@@ -86,13 +86,13 @@ public class ViewItemActivity extends AppCompatActivity implements Observer {
         context = getApplicationContext();
 
         on_create_update = false; // Suppress first call to update()
-        user_list_controller.getRemoteUsers();
+        user_list_controller.loadRemoteUsers();
 
         on_create_update = true; // First call to update occurs now
         bid_list_controller.loadBids(context);
         bid_list_controller.addObserver(this);
         item_list_controller.addObserver(this);
-        item_list_controller.getRemoteItems();
+        item_list_controller.loadRemoteItems();
 
         on_create_update = false; // Suppress any further calls to update()
     }

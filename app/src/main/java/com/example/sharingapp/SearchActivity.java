@@ -43,8 +43,8 @@ public class SearchActivity extends AppCompatActivity implements Observer {
         context = getApplicationContext();
 
         item_list_controller.addObserver(this);
-        user_list_controller.getRemoteUsers();
-        item_list_controller.getRemoteItems();
+        user_list_controller.loadRemoteUsers();
+        item_list_controller.loadRemoteItems();
         item_list_controller.setItems(item_list_controller.getSearchItems(user_id));
 
         // When an item is long clicked, this starts ViewItemActivity
@@ -69,7 +69,7 @@ public class SearchActivity extends AppCompatActivity implements Observer {
     protected void onStart() {
         super.onStart();
         search_entry.setText("");
-        item_list_controller.getRemoteItems();
+        item_list_controller.loadRemoteItems();
         item_list_controller.setItems(item_list_controller.getSearchItems(user_id));
     }
 
@@ -87,7 +87,7 @@ public class SearchActivity extends AppCompatActivity implements Observer {
 
     public void keywordSearch(View view) {
         String entry = search_entry.getText().toString();
-        item_list_controller.getRemoteItems();
+        item_list_controller.loadRemoteItems();
         if (entry.equals("")) {
             item_list_controller.setItems(item_list_controller.getSearchItems(user_id));
             return;

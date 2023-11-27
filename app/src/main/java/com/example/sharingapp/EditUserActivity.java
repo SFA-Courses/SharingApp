@@ -41,7 +41,7 @@ public class EditUserActivity extends AppCompatActivity implements Observer {
 
         context = getApplicationContext();
         user_list_controller.addObserver(this);
-        user_list_controller.getRemoteUsers(); // First call to update()
+        user_list_controller.loadRemoteUsers(); // First call to update()
         on_create_update = false; // Suppress any further calls to update()
     }
 

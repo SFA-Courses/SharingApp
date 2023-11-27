@@ -50,8 +50,8 @@ public class ViewItemBidsActivity extends AppCompatActivity implements Observer 
         item_bid_list = bid_list_controller.getItemBids(item_id);
 
         item_list_controller.addObserver(this);
-        item_list_controller.getRemoteItems();
-        user_list_controller.getRemoteUsers();
+        item_list_controller.loadRemoteItems();
+        user_list_controller.loadRemoteUsers();
     }
 
     public void acceptBid(View view) {

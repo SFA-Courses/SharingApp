@@ -70,7 +70,8 @@ public class UserListController {
        user_list.removeObserver(observer);
     }
 
-    public void getRemoteUsers(){
-        user_list.getRemoteUsers();
+    public void loadRemoteUsers(){
+        this.user_list = DatabaseManager.getInstance().getUserList();
+        this.user_list.notifyObservers();
     }
 }

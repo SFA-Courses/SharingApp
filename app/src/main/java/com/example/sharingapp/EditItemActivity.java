@@ -103,11 +103,11 @@ public class EditItemActivity extends AppCompatActivity implements Observer {
 
         on_create_update = false; // Suppress first call to update()
         item_list_controller.addObserver(this);
-        item_list_controller.getRemoteItems();
+        item_list_controller.loadRemoteItems();
 
         on_create_update = true;
         user_list_controller.addObserver(this);
-        user_list_controller.getRemoteUsers(); // Call update occurs
+        user_list_controller.loadRemoteUsers(); // Call update occurs
 
         on_create_update = false; // Suppress any further calls to update()
     }
