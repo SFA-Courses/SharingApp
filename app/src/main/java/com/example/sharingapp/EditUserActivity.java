@@ -40,8 +40,9 @@ public class EditUserActivity extends AppCompatActivity implements Observer {
         username = (TextView) findViewById(R.id.username);
 
         context = getApplicationContext();
-        user_list_controller.addObserver(this);
+        //user_list_controller.addObserver(this);
         user_list_controller.loadRemoteUsers(); // First call to update()
+        this.update();
         on_create_update = false; // Suppress any further calls to update()
     }
 

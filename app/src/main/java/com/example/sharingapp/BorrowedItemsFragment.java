@@ -1,6 +1,7 @@
 package com.example.sharingapp;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +26,8 @@ public class BorrowedItemsFragment extends ItemsFragment {
 
     public ArrayList<Item> filterItems() {
         String status = "Borrowed";
-        return item_list_controller.filterItems(user_id, status);
+        ArrayList<Item> borrowed = item_list_controller.filterItems(user_id, status);
+        //Log.d("Borrowed: ", borrowed.toString());
+        return borrowed;
     }
 }

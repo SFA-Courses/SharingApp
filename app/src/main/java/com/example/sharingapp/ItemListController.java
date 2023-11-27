@@ -88,7 +88,7 @@ public class ItemListController {
 
     public void loadRemoteItems(){
         this.item_list = DatabaseManager.getInstance().getItems();
-        Log.d("loadRemoteItems: ", this.item_list.getSize() + " " + this.item_list);
+
         this.item_list.notifyObservers();
 
     }

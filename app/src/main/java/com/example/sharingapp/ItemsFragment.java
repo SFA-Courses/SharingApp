@@ -60,9 +60,10 @@ public abstract class ItemsFragment extends Fragment implements Observer {
 
     public void loadItems(Fragment fragment){
         this.fragment = fragment;
-        item_list_controller.addObserver(this);
         item_list_controller.loadRemoteItems();
-        Log.d("loadItems", item_list_controller.getSize()+" " + item_list_controller.item_list);
+        item_list_controller.addObserver(this);
+
+        //Log.d("loadItems", item_list_controller.getSize()+" " + item_list_controller.item_list);
     }
 
     public void setFragmentOnItemLongClickListener(){
@@ -79,6 +80,7 @@ public abstract class ItemsFragment extends Fragment implements Observer {
                     Intent edit = new Intent(context, EditItemActivity.class);
                     edit.putExtra("user_id", user_id);
                     edit.putExtra("position", meta_pos);
+                    edit.putExtra("item_id", item.getId());
                     startActivity(edit);
                 }
                 return true;
@@ -107,6 +109,7 @@ public abstract class ItemsFragment extends Fragment implements Observer {
     public void update(){
         if (update) {
             selected_items = filterItems(); // Ensure items are filtered
+            Log.d("Update selected: ", selected_items.toString());
             adapter = new ItemFragmentAdapter(context, selected_items, fragment);
             list_view.setAdapter(adapter);
             adapter.notifyDataSetChanged();

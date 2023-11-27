@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -70,6 +71,9 @@ public class EditItemActivity extends AppCompatActivity implements Observer {
     private String status_str;
     private String borrower_username_str;
 
+    private String item_id;
+
+    private static final int REQUEST_IMAGE_CAPTURE  = 2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,25 +102,24 @@ public class EditItemActivity extends AppCompatActivity implements Observer {
         Intent intent = getIntent(); // Get intent from ItemsFragment
         pos = intent.getIntExtra("position", 0);
         user_id = intent.getStringExtra("user_id");
-
+        this.item_id = intent.getStringExtra("item_id");
         context = getApplicationContext();
-
+        Log.d("Edit onCreate: ", this.item_id + " " + item);
         on_create_update = false; // Suppress first call to update()
-        item_list_controller.addObserver(this);
         item_list_controller.loadRemoteItems();
+        item_list_controller.addObserver(this);
 
         on_create_update = true;
-        user_list_controller.addObserver(this);
         user_list_controller.loadRemoteUsers(); // Call update occurs
+        user_list_controller.addObserver(this);
+        this.update();
 
         on_create_update = false; // Suppress any further calls to update()
     }
 
     public void addPhoto(View view) {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (intent.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(intent, REQUEST_CODE);
-        }
+        startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
     }
 
     public void deletePhoto(View view) {
@@ -229,10 +232,13 @@ public class EditItemActivity extends AppCompatActivity implements Observer {
      * Only need to update the view once from the onCreate method
      */
     public void update() {
+        Log.d("Edit update: ", this.item_id + " " + item + " " + on_create_update);
         if (on_create_update){
 
             // For all status options we do the following
-            item = item_list_controller.getItem(pos);
+
+            item = item_list_controller.getItemById(this.item_id);
+            Log.d("Edit update: ", this.item_id + " " + item);
             item_controller = new ItemController(item);
 
             title.setText(item_controller.getTitle());

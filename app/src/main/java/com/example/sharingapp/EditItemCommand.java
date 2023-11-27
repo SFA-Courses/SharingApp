@@ -16,7 +16,8 @@ public class EditItemCommand extends Command {
 
     // Delete the old item remotely, save the new item remotely to server
     public void execute() {
-        ElasticSearchManager.RemoveItemTask remove_item_task = new ElasticSearchManager.RemoveItemTask();
+        super.setIsExecuted(true);
+       /* ElasticSearchManager.RemoveItemTask remove_item_task = new ElasticSearchManager.RemoveItemTask();
         remove_item_task.execute(old_item);
 
         ElasticSearchManager.AddItemTask add_item_task = new ElasticSearchManager.AddItemTask();
@@ -33,5 +34,7 @@ public class EditItemCommand extends Command {
             e.printStackTrace();
             super.setIsExecuted(false);
         }
+
+        */
     }
 }

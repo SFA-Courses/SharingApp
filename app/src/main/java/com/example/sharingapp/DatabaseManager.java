@@ -86,6 +86,7 @@ public class DatabaseManager implements  ValueEventListener {
     }
 
     public void addItem(Item item) {
+        this.itemsArrayList.add(item);
         DatabaseReference items = this.database.getReference("items");
         DatabaseReference newItem = items.child(item.getId());
         newItem.child("title").setValue(item.getTitle());
