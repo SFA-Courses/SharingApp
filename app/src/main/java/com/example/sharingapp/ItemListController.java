@@ -1,7 +1,4 @@
 package com.example.sharingapp;
-
-import android.util.Log;
-
 import java.util.ArrayList;
 
 /**
@@ -87,7 +84,7 @@ public class ItemListController {
     }
 
     public void loadRemoteItems(){
-        this.item_list = DatabaseManager.getInstance().getItems();
+        this.item_list.setItems(DatabaseManager.getInstance().getItems());
 
         this.item_list.notifyObservers();
 

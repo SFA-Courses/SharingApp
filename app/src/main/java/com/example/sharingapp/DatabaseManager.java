@@ -1,12 +1,12 @@
 package com.example.sharingapp;
 
-import android.content.Intent;
+
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
-import android.os.Debug;
+
 import android.os.Environment;
 import android.util.Log;
+
 
 import androidx.annotation.NonNull;
 
@@ -15,28 +15,28 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.StorageReference;
+
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 
 public class DatabaseManager implements  ValueEventListener {
-    private FirebaseDatabase database;
-    private UserList userList;
-    private ItemList itemList;
+    private final FirebaseDatabase database;
+
     private ArrayList<Item> itemsArrayList = new ArrayList<>();
     private ArrayList<User> userArrayList = new ArrayList<>();
+
+    private ArrayList<Bid> bidsArrayList = new ArrayList<>();
 
     // use a singleton design pattern
     private static  DatabaseManager instance;
 
     private DatabaseManager() {
         this.database = FirebaseDatabase.getInstance();
-        this.userList = new UserList();
         this.loadUsers();
-        this.itemList = new ItemList();
         this.loadItems();
+        this.loadBids();
     }
 
     public static DatabaseManager getInstance() {
@@ -47,31 +47,29 @@ public class DatabaseManager implements  ValueEventListener {
     }
 
     public void loadUsers() {
-        //ArrayList<User> userlist = new ArrayList<User>();
+
         userArrayList.clear();
         DatabaseReference users = this.database.getReference("users");
         // Listen for changes to the users collection
         users.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 // Get the users from the data snapshot
                 for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
                     String id = userSnapshot.getKey();
                     String username = userSnapshot.child("username").getValue(String.class);
                     String email = userSnapshot.child("email").getValue(String.class);
                     User user = new User(username,email,id);
-                    Log.i("User", user.toString());
                     userArrayList.add(user);
                 }
 
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
                 // Handle the error
             }
         });
-        this.userList.setUsers(userArrayList);
     }
 
     public void addUser(User user) {
@@ -80,9 +78,8 @@ public class DatabaseManager implements  ValueEventListener {
         users.child(user.getId()).child("username").setValue(user.getUsername());
     }
 
-    public UserList getUserList() {
-        this.userList.setUsers(this.userArrayList);
-        return this.userList;
+    public ArrayList<User> getUsers() {
+        return this.userArrayList;
     }
 
     public void addItem(Item item) {
@@ -131,7 +128,7 @@ public class DatabaseManager implements  ValueEventListener {
         // Listen for changes to the users collection
         items.addValueEventListener(this);
 
-        Log.d("DM itemList: ",this.itemList.getSize()+" "+this.itemList);
+
     }
 
     @Override
@@ -168,26 +165,74 @@ public class DatabaseManager implements  ValueEventListener {
 
             String borrowerId = itemSnapshot.child("borrowerId").getValue(String.class);
             if (!borrowerId.equals("none")) {
-                item.setBorrower(this.userList.getUserByUserId(borrowerId));
+                UserList users = new UserList();
+                users.setUsers(this.getUsers());
+                item.setBorrower(users.getUserByUserId(borrowerId));
             }
             itemsArrayList.add(item);
             Log.d("DM item onDataChanged: ", itemsArrayList.size() + " id: " + item.getId());
         //    this.itemList.setItems(items);
         } // end for
         //this.itemList.setItems(itemsArrayList);
-        Log.d("DM itemList: ", this.itemList.getSize()+ " " + this.itemList);
+
     } // end method
 
-    public ItemList getItems() {
-        this.itemList.setItems(itemsArrayList);
-        Log.d("DM getItmes ", itemsArrayList.size() + " " + this.itemsArrayList);
-        Log.d("DM getItems" , this.itemList.getSize() + " " + this.itemList);
-        return this.itemList;
+    public ArrayList<Item> getItems() {
+        return  this.itemsArrayList;
     }
 
 
     @Override
-    public void onCancelled(DatabaseError databaseError) {
+    public void onCancelled(@NonNull DatabaseError databaseError) {
         // Handle the error
     }
+
+    public void recordBid(Bid bid, String bidderId) {
+        DatabaseReference items = this.database.getReference("items");
+
+        DatabaseReference biddedItem = items.child(bid.getItemId());
+        biddedItem.child("status").setValue(Item.BIDDED_STATUS);
+        biddedItem.child("borrowerId").setValue("none");
+        biddedItem.child("minBid").setValue(bid.getBidAmount().floatValue());
+        biddedItem.child("bidderId").setValue(bidderId);
+
+        DatabaseReference bids = this.database.getReference("bids");
+        DatabaseReference bidDB = bids.child(bid.getBidId());
+        bidDB.child("amount").setValue(bid.getBidAmount().floatValue());
+        bidDB.child("itemId").setValue(bid.getItemId());
+        bidDB.child("bidderId").setValue(bidderId);
+        bidDB.child("username").setValue(bid.getBidderUsername());
+    }
+
+    public void loadBids() {
+
+        this.bidsArrayList.clear();
+        DatabaseReference bids = this.database.getReference("bids");
+        // Listen for changes to the users collection
+        bids.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                // Get the users from the data snapshot
+                for (DataSnapshot bidSnapshot : dataSnapshot.getChildren()) {
+                    String id = bidSnapshot.getKey();
+                    Float amount = bidSnapshot.child("amount").getValue(Float.class);
+                    String itemId = bidSnapshot.child("itemId").getValue(String.class);
+                    String bidderId = bidSnapshot.child("bidderId").getValue(String.class);
+                    String bidderUserName = bidSnapshot.child("username").getValue((String.class));
+
+                    Bid bid = new Bid(itemId, amount, bidderUserName, id);
+                    bidsArrayList.add(bid);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Handle the error
+            }
+        });
+    }
+
 }
+
+

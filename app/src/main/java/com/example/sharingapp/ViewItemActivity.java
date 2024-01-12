@@ -125,11 +125,13 @@ public class ViewItemActivity extends AppCompatActivity implements Observer {
 
         Bid bid = new Bid(item_id, new_bid_amount, username);
 
+
         boolean success = bid_list_controller.addBid(bid, context);
         if (!success){
             return;
         }
 
+        DatabaseManager.getInstance().recordBid(bid, user_id);
         // Reuse the item id
         Item updated_item = new Item(title_str, maker_str, description_str,owner_id_str,
                 minimum_bid_amount_str, image, item_id);

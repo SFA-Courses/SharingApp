@@ -24,7 +24,7 @@ public class BiddedItemsFragment extends ItemsFragment {
     }
 
     public ArrayList<Item> filterItems() {
-        String status = "Bidded";
+        String status = Item.BIDDED_STATUS;
         return item_list_controller.filterItems(user_id, status);
     }
 }

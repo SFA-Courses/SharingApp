@@ -18,6 +18,13 @@ public class Bid extends Observable {
         setBidId();
     }
 
+    public Bid(String item_id, Float bid_amount, String bidderUsername, String bidId) {
+        this.item_id = item_id;
+        this.bid_amount = bid_amount;
+        this.bid_id = bidId;
+        this.bidder_username = bidderUsername;
+    }
+
     public String getItemId() {
         return this.item_id;
     }

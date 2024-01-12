@@ -24,14 +24,17 @@ public class Item extends Observable {
     protected transient Bitmap image;
     protected String image_base64;
     private String id;
+    public static final String BIDDED_STATUS = "Bidded";
+    public static final String AVAILABLE_STATUS = "Available";
 
+    public static final String BORROWED_STATUS = "Borrowed";
     public Item(String title, String maker, String description, String owner_id, String minimum_bid, Bitmap image, String id) {
         this.title = title;
         this.maker = maker;
         this.description = description;
         this.dimensions = null;
         this.owner_id = owner_id;
-        this.status = "Available";
+        this.status = Item.AVAILABLE_STATUS;
         this.minimum_bid = Float.valueOf(minimum_bid);
         this.borrower = null;
         addImage(image);

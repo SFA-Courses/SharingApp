@@ -71,7 +71,7 @@ public class UserListController {
     }
 
     public void loadRemoteUsers(){
-        this.user_list = DatabaseManager.getInstance().getUserList();
+        this.setUsers(DatabaseManager.getInstance().getUsers());
         this.user_list.notifyObservers();
     }
 }

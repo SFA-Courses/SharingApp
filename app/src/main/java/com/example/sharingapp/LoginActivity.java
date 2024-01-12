@@ -23,8 +23,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText email;
     private TextView email_tv;
     private Context context;
-    private String username_str;
-    private String email_str;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +45,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void login(View view) {
-        username_str = username.getText().toString();
-        email_str = email.getText().toString();
+        String username_str = username.getText().toString();
+        String email_str = email.getText().toString();
         String user_id = "";
         user_list_controller.loadRemoteUsers();
         if (user_list_controller.getUserByUsername(username_str) == null && email.getVisibility() == View.GONE) {
@@ -92,6 +91,9 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public boolean validateInput(){
+        String username_str = username.getText().toString();
+        String email_str = email.getText().toString();
+
         if (email_str.equals("")) {
             email.setError("Empty field!");
             return false;
