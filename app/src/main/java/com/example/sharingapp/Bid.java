@@ -9,6 +9,8 @@ public class Bid extends Observable {
     private String item_id;
     private String bid_id;
     private Float bid_amount;
+
+    private String bidderId;
     private String bidder_username;
 
     public Bid(String item_id, Float bid_amount, String bidder_username) {
@@ -18,7 +20,7 @@ public class Bid extends Observable {
         setBidId();
     }
 
-    public Bid(String item_id, Float bid_amount, String bidderUsername, String bidId) {
+    public Bid(String bidId, String item_id, Float bid_amount, String bidderId, String bidderUsername) {
         this.item_id = item_id;
         this.bid_amount = bid_amount;
         this.bid_id = bidId;

@@ -10,10 +10,13 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 
@@ -193,8 +196,6 @@ public class DatabaseManager implements  ValueEventListener {
         DatabaseReference biddedItem = items.child(bid.getItemId());
         biddedItem.child("status").setValue(Item.BIDDED_STATUS);
         biddedItem.child("borrowerId").setValue("none");
-        biddedItem.child("minBid").setValue(bid.getBidAmount().floatValue());
-        biddedItem.child("bidderId").setValue(bidderId);
 
         DatabaseReference bids = this.database.getReference("bids");
         DatabaseReference bidDB = bids.child(bid.getBidId());
@@ -214,13 +215,13 @@ public class DatabaseManager implements  ValueEventListener {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 // Get the users from the data snapshot
                 for (DataSnapshot bidSnapshot : dataSnapshot.getChildren()) {
-                    String id = bidSnapshot.getKey();
+                    String bidId = bidSnapshot.getKey();
                     Float amount = bidSnapshot.child("amount").getValue(Float.class);
                     String itemId = bidSnapshot.child("itemId").getValue(String.class);
                     String bidderId = bidSnapshot.child("bidderId").getValue(String.class);
                     String bidderUserName = bidSnapshot.child("username").getValue((String.class));
 
-                    Bid bid = new Bid(itemId, amount, bidderUserName, id);
+                    Bid bid = new Bid(bidId, itemId, amount, bidderId, bidderUserName );
                     bidsArrayList.add(bid);
                 }
 
@@ -231,6 +232,10 @@ public class DatabaseManager implements  ValueEventListener {
                 // Handle the error
             }
         });
+    }
+
+    public ArrayList<Bid> getBids() {
+        return this.bidsArrayList;
     }
 
 }

@@ -15,12 +15,14 @@ import java.util.ArrayList;
  * BidList Class
  */
 public class BidList extends Observable {
-    private static ArrayList<Bid> bids;
+    private ArrayList<Bid> bids;
     private String FILENAME = "bids.sav";
 
     public BidList() {
         bids = new ArrayList<Bid>();
     }
+
+
 
     public void setBids(ArrayList<Bid> bid_list) {
         bids = bid_list;
@@ -118,21 +120,7 @@ public class BidList extends Observable {
 
 
     public void loadBids(Context context) {
-/*
-        try {
-            FileInputStream fis = context.openFileInput(FILENAME);
-            InputStreamReader isr = new InputStreamReader(fis);
-            Gson gson = new Gson();
-            Type listType = new TypeToken<ArrayList<Bid>>() {
-            }.getType();
-            bids = gson.fromJson(isr, listType); // temporary
-            fis.close();
-        } catch (FileNotFoundException e) {
-            bids = new ArrayList<Bid>();
-        } catch (IOException e) {
-            bids = new ArrayList<Bid>();
-        }
-  */
+        bids = DatabaseManager.getInstance().getBids();
         notifyObservers();
 
     }
