@@ -26,6 +26,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // get databse ready -- calls constructor to load items
+        DatabaseManager.getInstance();
 
         setContentView(R.layout.activity_main);
 

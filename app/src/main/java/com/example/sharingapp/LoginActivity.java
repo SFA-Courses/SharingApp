@@ -40,7 +40,8 @@ public class LoginActivity extends AppCompatActivity {
         context = getApplicationContext();
 
 
-        user_list_controller.loadRemoteUsers();
+        // have the database load the info
+        DatabaseManager.getInstance();
 
     }
 

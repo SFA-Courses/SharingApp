@@ -21,5 +21,6 @@ public class DeleteBidCommand extends Command {
     public void execute(){
         bid_list.removeBid(bid);
         super.setIsExecuted(bid_list.saveBids(context));
+        DatabaseManager.getInstance().removeBid(this.bid.getBidId());
     }
 }

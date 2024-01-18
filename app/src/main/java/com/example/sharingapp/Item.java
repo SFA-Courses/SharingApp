@@ -136,6 +136,14 @@ public class Item extends Observable {
         notifyObservers();
     }
 
+
+    public String getBorrowerId() {
+        if (this.borrower != null)
+            return this.borrower.getId();
+        else
+            return "none";
+    }
+
     public User getBorrower() {
         return borrower;
     }

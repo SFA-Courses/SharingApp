@@ -37,9 +37,7 @@ public class DatabaseManager implements  ValueEventListener {
 
     private DatabaseManager() {
         this.database = FirebaseDatabase.getInstance();
-        this.loadUsers();
-        this.loadItems();
-        this.loadBids();
+        this.loadInfo();
     }
 
     public static DatabaseManager getInstance() {
@@ -49,6 +47,11 @@ public class DatabaseManager implements  ValueEventListener {
         return instance;
     }
 
+    private void loadInfo() {
+        this.loadUsers();
+        this.loadItems();
+        this.loadBids();
+    }
     public void loadUsers() {
 
         userArrayList.clear();
@@ -98,7 +101,7 @@ public class DatabaseManager implements  ValueEventListener {
         newItem.child("height").setValue(item.getHeight());
         newItem.child("minBid").setValue(item.getMinBid());
         newItem.child("status").setValue(item.getStatus());
-        newItem.child("borrowerId").setValue("none");
+        newItem.child("borrowerId").setValue(item.getBorrowerId());
 
         Bitmap image = item.getImage();
         if (image != null)
@@ -138,7 +141,7 @@ public class DatabaseManager implements  ValueEventListener {
     public void onDataChange(DataSnapshot dataSnapshot) {
         // Get the items from the data snapshot
        //ArrayList<Item> itemsArrayList = new ArrayList<>();
-        itemsArrayList.clear();
+       // itemsArrayList.clear();
         for (DataSnapshot itemSnapshot : dataSnapshot.getChildren()) {
             String id = itemSnapshot.getKey();
             String title = itemSnapshot.child("title").getValue(String.class);
@@ -236,6 +239,16 @@ public class DatabaseManager implements  ValueEventListener {
 
     public ArrayList<Bid> getBids() {
         return this.bidsArrayList;
+    }
+
+    public void removeBid(String bidId) {
+        DatabaseReference bidRef = this.database.getReference().child("bids").child(bidId);
+        bidRef.removeValue();
+    }
+
+    public void removeItem(String itemId) {
+        DatabaseReference itemRef = this.database.getReference().child("items").child(itemId);
+        itemRef.removeValue();
     }
 
 }
